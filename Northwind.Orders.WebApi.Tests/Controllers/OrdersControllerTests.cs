@@ -37,6 +37,9 @@ public sealed class OrdersControllerTests
     [TestCaseSource(nameof(GetOrderAsyncData))]
     public async Task GetOrderAsync_OrderIsExist_ReturnsOrder(RepositoryOrder repositoryOrder, ModelsFullOrder expectedOrder)
     {
+        ArgumentNullException.ThrowIfNull(repositoryOrder);
+        ArgumentNullException.ThrowIfNull(expectedOrder);
+
         // Arrange
         var orderRepositoryMock = new Mock<IOrderRepository>();
         orderRepositoryMock
@@ -144,6 +147,8 @@ public sealed class OrdersControllerTests
         Assert.That(actualResultValue, Is.Not.Null);
         var actualEnumerable = (IEnumerable<ModelsBriefOrder>)actualResultValue!;
         var actualList = actualEnumerable.ToList();
+
+        ArgumentNullException.ThrowIfNull(expectedOrderList);
         Assert.That(actualList.Count, Is.EqualTo(expectedOrderList.Count));
 
         var comparer = new ObjectComparer();

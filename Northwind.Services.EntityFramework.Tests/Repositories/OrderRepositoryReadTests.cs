@@ -40,6 +40,8 @@ public sealed class OrderRepositoryReadTests : IDisposable
     [TestCaseSource(nameof(GetOrdersAsync))]
     public async Task GetOrdersAsync_ArgumentsAreValid_ReturnsOrderList(int skip, int count, long[] id)
     {
+        ArgumentNullException.ThrowIfNull(id);
+
         // Act
         IList<RepositoryOrder> orders = await this.repository.GetOrdersAsync(skip: skip, count: count);
 
@@ -61,6 +63,8 @@ public sealed class OrderRepositoryReadTests : IDisposable
     [TestCaseSource(nameof(GetOrderDataAsync))]
     public async Task GetOrderAsync_OrderIsExist_ReturnsOrder(RepositoryOrder expectedOrder)
     {
+        ArgumentNullException.ThrowIfNull(expectedOrder);
+
         // Act
         RepositoryOrder? actualOrder = await this.repository.GetOrderAsync(orderId: expectedOrder.Id);
 

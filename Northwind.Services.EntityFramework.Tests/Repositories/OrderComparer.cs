@@ -13,6 +13,9 @@ public static class OrderComparer
             return true;
         }
 
+        ArgumentNullException.ThrowIfNull(o1);
+        ArgumentNullException.ThrowIfNull(o2);
+
         if (o1.Id != o2.Id)
         {
             message = $"{o1.Id} != {o2.Id}";

@@ -38,6 +38,7 @@ public class OrderRepositoryWriteTests
         Assert.That(ordersAfter, Is.EqualTo(0));
 
         long orderDetailsAfter = databaseService.ExecuteScalar<long>($"SELECT COUNT(*) FROM OrderDetails WHERE OrderID = {orderId}");
+        await context.DisposeAsync();
         Assert.That(orderDetailsAfter, Is.EqualTo(0));
     }
 
@@ -64,6 +65,7 @@ public class OrderRepositoryWriteTests
 
         // Postconditions
         long countAfter = databaseService.ExecuteScalar<long>($"SELECT COUNT(*) FROM Orders Where OrderID = {orderId}");
+        context.Dispose();
         Assert.That(countAfter, Is.EqualTo(0));
     }
 
@@ -97,6 +99,8 @@ public class OrderRepositoryWriteTests
         Assert.That(ordersAfter, Is.EqualTo(1));
 
         var orderDetailsAfter = databaseService.ExecuteScalar<long>("SELECT COUNT(*) FROM OrderDetails");
+        await context.DisposeAsync();
+        ArgumentNullException.ThrowIfNull(order);
         Assert.That(orderDetailsAfter, Is.EqualTo(order.OrderDetails.Count));
     }
 
@@ -121,6 +125,8 @@ public class OrderRepositoryWriteTests
         Assert.That(counter, Is.EqualTo(1));
 
         counter = databaseService.ExecuteScalar<long>($"SELECT COUNT(*) FROM OrderDetails WHERE OrderID = {rowId}");
+        await context.DisposeAsync();
+        ArgumentNullException.ThrowIfNull(order);
         Assert.That(counter, Is.EqualTo(order.OrderDetails.Count));
     }
 
@@ -148,6 +154,7 @@ public class OrderRepositoryWriteTests
         Assert.That(ordersAfter, Is.EqualTo(ordersBefore));
 
         var orderDetailsAfter = databaseService.ExecuteScalar<long>("SELECT COUNT(*) FROM OrderDetails");
+        context.Dispose();
         Assert.That(orderDetailsAfter, Is.EqualTo(orderDetailsBefore));
     }
 
@@ -163,6 +170,7 @@ public class OrderRepositoryWriteTests
         var contextOptions = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), DatabaseService.ConnectionString);
         var context = new NorthwindContext(contextOptions.Options);
         var repository = new OrderRepository(context);
+        ArgumentNullException.ThrowIfNull(order);
 
         // Preconditions
         long ordersBefore = databaseService.ExecuteScalar<long>($"SELECT COUNT(*) FROM Orders WHERE OrderID = {order.Id}");
@@ -184,6 +192,7 @@ public class OrderRepositoryWriteTests
         // Assert
         Order updatedOrder = await repository.GetOrderAsync(order.Id);
         var result = OrderComparer.Compare(updatedOrder, order, out string message);
+        await context.DisposeAsync();
         Assert.That(result, Is.True, message);
     }
 
@@ -199,6 +208,7 @@ public class OrderRepositoryWriteTests
         var contextOptions = SqliteDbContextOptionsBuilderExtensions.UseSqlite(new DbContextOptionsBuilder(), DatabaseService.ConnectionString);
         var context = new NorthwindContext(contextOptions.Options);
         var repository = new OrderRepository(context);
+        ArgumentNullException.ThrowIfNull(order);
 
         // Preconditions
         long ordersBefore = databaseService.ExecuteScalar<long>($"SELECT COUNT(*) FROM Orders WHERE OrderID = {order.Id}");
@@ -215,6 +225,7 @@ public class OrderRepositoryWriteTests
         Assert.That(ordersAfter, Is.EqualTo(0));
 
         long orderDetailsAfter = databaseService.ExecuteScalar<long>($"SELECT COUNT(*) FROM OrderDetails WHERE OrderID = {order.Id}");
+        context.Dispose();
         Assert.That(orderDetailsAfter, Is.EqualTo(0));
     }
 
