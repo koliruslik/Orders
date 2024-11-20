@@ -12,7 +12,7 @@ To successfully complete the task, you must have the following skills:
 
 Estimated time to complete the task: 6 hours.
 
-The task requires [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to be installed.
+The task requires [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to be installed.
 
 
 ## Task Description
