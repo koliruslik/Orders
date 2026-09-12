@@ -1,3 +1,4 @@
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Orders.WebApi.Services;
 using Northwind.Services.EntityFramework.Entities;
@@ -6,16 +7,34 @@ using Northwind.Services.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var sqliteDatabaseFile = builder.Configuration.GetValue<string?>("SQLiteDatabaseFile", null) ?? throw new Exception("The `SQLiteDatabaseFile` configuration setting is not set.");
-var connectionString = builder.Configuration.GetConnectionString("NorthwindDatabase") ?? throw new Exception("The `NorthwindDatabase` connection string is not set.");
+var configuredConnectionString = builder.Configuration.GetConnectionString("NorthwindDatabase")
+    ?? throw new InvalidOperationException("The `NorthwindDatabase` connection string is not set.");
+var connectionStringBuilder = new SqliteConnectionStringBuilder(configuredConnectionString);
+bool isInMemory = connectionStringBuilder.Mode == SqliteOpenMode.Memory
+    || connectionStringBuilder.DataSource == ":memory:";
 
-if (File.Exists(sqliteDatabaseFile))
+if (isInMemory)
 {
-    File.Delete(sqliteDatabaseFile);
+    connectionStringBuilder.Mode = SqliteOpenMode.Memory;
+    connectionStringBuilder.Cache = SqliteCacheMode.Shared;
+    if (connectionStringBuilder.DataSource == ":memory:")
+    {
+        connectionStringBuilder.DataSource = "Northwind";
+    }
+}
+else
+{
+    connectionStringBuilder.DataSource = Path.GetFullPath(
+        connectionStringBuilder.DataSource,
+        builder.Environment.ContentRootPath);
 }
 
-using var databaseService = new DatabaseService(connectionString!);
-databaseService.InitializeDatabase();
+var connectionString = connectionStringBuilder.ToString();
+using var databaseService = new DatabaseService(connectionString);
+if (isInMemory || !File.Exists(connectionStringBuilder.DataSource))
+{
+    databaseService.InitializeDatabase();
+}
 
 // Add services to the container.
 builder.Services.AddDbContext<NorthwindContext>(options => options.UseSqlite(connectionString));
@@ -38,4 +57,4 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.Run();
+await app.RunAsync();
