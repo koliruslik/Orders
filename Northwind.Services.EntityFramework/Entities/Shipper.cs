@@ -16,5 +16,6 @@ public class Shipper
     [Column("Phone")]
     public string? Phone { get; set; }
 
-    public ICollection<Order> Orders { get; set; } = [];
+    public ICollection<Order> Orders { get; init; } =
+        [];
 }

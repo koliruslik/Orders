@@ -22,5 +22,5 @@ public class FullOrder
 
     public ShippingAddress ShippingAddress { get; set; } = default!;
 
-    public List<FullOrderDetail> OrderDetails { get; set; } = default!;
+    public ICollection<FullOrderDetail> OrderDetails { get; init; } = default!;
 }

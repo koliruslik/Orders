@@ -57,7 +57,9 @@ public class Employee
 
     public Employee? Manager { get; set; }
 
-    public ICollection<Employee> Subordinates { get; set; } = [];
+    public ICollection<Employee> Subordinates { get; init; } =
+        [];
 
-    public ICollection<Order> Orders { get; set; } = [];
+    public ICollection<Order> Orders { get; init; } =
+        [];
 }

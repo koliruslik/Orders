@@ -55,5 +55,6 @@ public class Order
 
     public Shipper? Shipper { get; set; }
 
-    public ICollection<OrderDetail> OrderDetails { get; set; } = [];
+    public ICollection<OrderDetail> OrderDetails { get; init; } =
+        [];
 }

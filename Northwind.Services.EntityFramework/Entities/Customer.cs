@@ -40,5 +40,6 @@ public class Customer
     [Column("Fax")]
     public string? Fax { get; set; }
 
-    public ICollection<Order> Orders { get; set; } = [];
+    public ICollection<Order> Orders { get; init; } =
+        [];
 }

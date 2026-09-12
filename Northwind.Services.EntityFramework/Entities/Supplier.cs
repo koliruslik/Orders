@@ -40,5 +40,6 @@ public class Supplier
     [Column("HomePage")]
     public string? HomePage { get; set; }
 
-    public ICollection<Product> Products { get; set; } = [];
+    public ICollection<Product> Products { get; init; } =
+        [];
 }

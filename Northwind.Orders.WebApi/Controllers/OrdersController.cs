@@ -128,7 +128,6 @@ public sealed class OrdersController : ControllerBase
         return this.GetOrdersAsyncCore(actualSkip, actualCount);
     }
 
-
     [HttpPost]
     public Task<ActionResult<AddOrder>> AddOrderAsync([FromBody] BriefOrder order)
     {
@@ -136,7 +135,6 @@ public sealed class OrdersController : ControllerBase
 
         return this.AddOrderAsyncCore(order);
     }
-
 
     [HttpDelete("{orderId:long}")]
     public async Task<ActionResult> RemoveOrderAsync(long orderId)
@@ -179,7 +177,6 @@ public sealed class OrdersController : ControllerBase
 
         return this.UpdateOrderAsyncCore(orderId, order);
     }
-
 
     private static Order MapBriefOrder(BriefOrder source, long? orderId = null)
     {

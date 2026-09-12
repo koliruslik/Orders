@@ -16,6 +16,6 @@ public class Category
     [Column("Description")]
     public string? Description { get; set; } = string.Empty;
 
-    public ICollection<Product> Products { get; set; } =
+    public ICollection<Product> Products { get; init; } =
         [];
 }

@@ -30,5 +30,5 @@ public class BriefOrder
 
     public string ShipCountry { get; set; } = default!;
 
-    public List<BriefOrderDetail> OrderDetails { get; set; } = default!;
+    public ICollection<BriefOrderDetail> OrderDetails { get; init; } = default!;
 }
