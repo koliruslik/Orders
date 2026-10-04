@@ -1,18 +1,62 @@
-# Northwind Order Repository (Web API)
+# Northwind Orders Web API
 
-An advanced-level task to practice creating the Web API application that accesses a relational database as a data source.
+An educational ASP.NET Core Web API for reading and managing orders in the Northwind database. The project demonstrates a layered .NET 8 solution with an asynchronous repository, Entity Framework Core mappings, dependency injection, validation, error handling, and automated tests.
 
-To successfully complete the task, you must have the following skills:
-* You should be familiar with structured and object-oriented programming in C#.
-* You should be familiar with .NET's string parsing and data formatting capabilities.
-* You should be familiar with the [task asynchronous programming model (TAP)](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/task-asynchronous-programming-model).
-* You should be familiar with the [Entity Framework](https://learn.microsoft.com/en-us/aspnet/entity-framework) object-relational mapper.
-* You should be familiar with the [Repository design pattern](https://martinfowler.com/eaaCatalog/repository.html).
-* You should know how to build [controller-based Web API applications](https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-7.0) using ASP.NET Core.
+## Implemented functionality
 
-Estimated time to complete the task: 6 hours.
+- Retrieve one order or a paginated list of orders.
+- Create, update, and delete orders together with their order details.
+- Map the Northwind relational model to EF Core entities and repository models.
+- Load related customers, employees, shippers, products, suppliers, and categories.
+- Return appropriate HTTP responses for invalid input, missing orders, and unexpected failures.
+- Initialize and use a local SQLite Northwind database.
+- Exercise repository and controller behavior with NUnit and Moq tests.
 
-The task requires [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) to be installed.
+## Technology
+
+- C# and .NET 8
+- ASP.NET Core Web API
+- Entity Framework Core with SQLite
+- Repository pattern and dependency injection
+- Swagger/OpenAPI
+- NUnit and Moq
+
+## Run locally
+
+Requirements: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+
+```shell
+dotnet restore Northwind.Services.sln
+dotnet run --project Northwind.Orders.WebApi
+```
+
+Swagger is available in the Development environment at the URL printed by `dotnet run`, followed by `/swagger`.
+
+Run all tests with:
+
+```shell
+dotnet test Northwind.Services.sln
+```
+
+## Solution structure
+
+- `Northwind.Orders.WebApi` — controllers, API models, Swagger, and database initialization.
+- `Northwind.Services` — repository contracts and domain-facing data models.
+- `Northwind.Services.EntityFramework` — EF Core entities and repository implementation.
+- `Northwind.Orders.WebApi.Tests` — controller tests.
+- `Northwind.Services.EntityFramework.Tests` — repository tests.
+
+## Project origin
+
+This repository contains an educational assignment completed during the EPAM Campus .NET learning program. The task description, starter solution, tests, diagrams, and parts of the repository history were provided by the course authors. My implementation is represented by my commits, primarily the EF Core model and repository behavior, API controller actions, validation, and error handling. This is not commercial experience.
+
+The repository does not currently contain a project-level open-source license. Course materials and contributions remain the property of their respective authors; public availability should not be interpreted as permission to reuse them.
+
+---
+
+## Original course assignment
+
+An advanced-level task to practice creating a Web API application that accesses a relational database as a data source.
 
 
 ## Task Description
